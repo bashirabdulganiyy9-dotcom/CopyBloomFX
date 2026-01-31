@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: crypto-platform
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
+    startCommand: gunicorn crypto_platform.wsgi:application
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: crypto_platform.render_settings
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: false
+      - key: PYTHON_VERSION
+        value: 3.9.0
+
+databases:
+  - name: crypto-db
+    databaseName: crypto_platform
+    user: crypto_user
